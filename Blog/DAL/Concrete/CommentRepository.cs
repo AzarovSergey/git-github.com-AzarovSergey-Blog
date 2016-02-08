@@ -18,14 +18,7 @@ namespace DAL.Concrete
         {
             this.context = dbContext;
         }
-
-        #region uow
-        public void Commit()
-        {
-            context.SaveChanges();
-        }
-        #endregion
-
+        
         #region create update delete
         /// <summary>
         /// Create new comment and add it to database.

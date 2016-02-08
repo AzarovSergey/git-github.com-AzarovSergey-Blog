@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DAL.Interface.Repository
 {
-    public interface IArticleRepository:IRepository<DalArticle>,IUnitOfWork
+    public interface IArticleRepository:IRepository<DalArticle>
     {
         IEnumerable<DalArticle> GetByAuthorId(int authorId);
         void Create(DalArticle article, string[] tags);

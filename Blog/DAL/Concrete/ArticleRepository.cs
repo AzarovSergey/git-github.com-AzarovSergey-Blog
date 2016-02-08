@@ -201,12 +201,7 @@ namespace DAL.Concrete
         }
         #endregion
 
-        #region uow
-        public void Commit()
-        {
-            context.SaveChanges();
-        }
-        #endregion
+       
         
         #region search
         /// <summary>

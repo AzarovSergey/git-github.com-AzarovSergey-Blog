@@ -20,13 +20,6 @@ namespace DAL.Concrete
         }
 
 
-        #region uow
-        public void Commit()
-        {
-            dbContext.SaveChanges();
-        }
-        #endregion
-
         #region create update delete
         /// <summary>
         /// Create new tag entity and add it to database.

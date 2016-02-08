@@ -7,7 +7,7 @@ using DAL.Interface.DTO;
 
 namespace DAL.Interface.Repository
 {
-    public interface ITagRepository:IRepository<DalTag>, IUnitOfWork
+    public interface ITagRepository:IRepository<DalTag>
     {
         IEnumerable<DalTag> GetByArticleId(int articleId);
     }

@@ -43,7 +43,7 @@ namespace BLL.Services
         }
 
         /// <summary>
-        /// The method returns article with specified id.
+        /// The method returns an article with specified id.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -140,7 +140,7 @@ namespace BLL.Services
 
         #region privare methods
         /// <summary>
-        /// Method for getting array of tags from single string. 
+        /// Method for getting an array of tags from single string. 
         /// </summary>
         /// <param name="tags"></param>
         /// <returns></returns>

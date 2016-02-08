@@ -1,0 +1,66 @@
+﻿@* @using CustomAuth.ViewModels;*@
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE HTML>
+<html>@*TODO set lang  attribute*@
+<head>
+    <meta charset="utf-8" />
+    <title>Index page</title>
+
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" /><!---->
+    <link href="~/Content/Site.css" rel="stylesheet" />
+</head>
+<body>
+    <header class="row">
+        <div class="col-sm-4">
+            <a href="/">
+                <img src="~/Content/Images/LOGOHERE_transparent.png" />
+            </a>
+        </div>
+        <div class="col-xs-4">
+            @{
+                Html.RenderAction("Search", "Home"); 
+            }
+        </div>
+        <div class="col-xs-4">
+            <a class="btn btn-info btn-lg btn-account" href="~/Account/Login">войти</a>
+            <a class="btn btn-info btn-lg btn-account" href="~/Account/Register">регистрация</a>
+            <a class="btn btn-info btn-lg btn-account" href="~/Account/LogOut">выход</a>
+        </div>
+    </header>
+    <div>
+        <a class="btn btn-danger btn-lg btn-account" href="~/Article/Create">create article</a>
+
+        [@User.Identity.AuthenticationType]
+        <br />
+        role:
+        @if (User.IsInRole("Admin"))
+        {
+            <p>user is admin</p>
+        }
+        else if (User.IsInRole("User"))
+        {
+            <p>user is user</p>
+        }
+        else
+        {
+            <p>undef</p>
+        }
+        <p>
+            @User.ToString()
+        </p>
+        <p>
+            name: @User.Identity.Name<br />
+            IsAuthenticated: @User.Identity.IsAuthenticated.ToString()
+        </p>
+    </div>
+    @RenderBody()
+    <footer>
+        <hr style="border:solid 1px" />
+    </footer>
+</body>
+</html>
+

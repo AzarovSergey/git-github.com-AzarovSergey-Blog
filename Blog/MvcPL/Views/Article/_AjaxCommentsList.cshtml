@@ -1,0 +1,9 @@
+﻿@using MvcPL.Models
+@model IEnumerable<CommentViewModel>
+@{
+    Layout = null;
+}
+
+@{
+    Html.RenderPartial("_CommentsList", Model);
+}

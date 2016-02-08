@@ -1,0 +1,44 @@
+﻿@model MvcPL.Models.ArticleViewModel
+@using MvcPL.ViewModels
+@using MvcPL.Controllers
+@using MvcPL.Models
+
+@{
+    Layout = @"~/Views/Shared/_Layout.cshtml";
+}
+
+@RenderPage(@"_Article.cshtml")
+
+@{
+    TempData["articleId"] = Model.ArticleId;
+    Html.RenderPartial("_CommentsList", Model.Comments);
+    <script>
+    $(function () {
+        var container = $('#comment-container');
+
+        function GetComments() {
+            $.ajax({
+                url: "/article/getcomments/@TempData["articleId"]",
+                success: function (result) {
+                    container.html(result);
+                }
+            });
+        };
+        //var intent = $("<h2>").text("I am $");
+        //container.append(intent);
+        setInterval(GetComments, 5000);
+    });
+    </script>
+    if (User.Identity.IsAuthenticated && TempData.ContainsKey("user") && !((UserViewModel)TempData["user"]).Ban)
+    {
+        if (TempData.ContainsKey(ArticleController.commentModelKey))
+        {
+            Html.RenderPartial(@"_CommentForm", TempData[ArticleController.commentModelKey]);
+            TempData.Remove(ArticleController.commentModelKey);
+        }
+        else
+        {
+            Html.RenderPartial(@"_CommentForm", new CommentFormViewModel() { ArticleId = Model.ArticleId });
+        }
+    }
+}

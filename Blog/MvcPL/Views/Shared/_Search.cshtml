@@ -1,0 +1,41 @@
+﻿@model MvcPL.ViewModels.SearchViewModel
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+
+
+<div style="margin-left:20px">
+    @using (Html.BeginForm("Search", "Home"))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
+            <div class="form-group" >
+                @Html.LabelFor(model => model.SearchString, htmlAttributes: new { @class = "control-label" })
+                <div class="">
+                    @Html.EditorFor(model => model.SearchString, new { htmlAttributes = new { @class = "form-control",@autocomplete="off" } })
+                    @*@Html.ValidationMessageFor(model => model.SearchString, "", new { @class = "text-danger" })*@
+                </div>
+            </div>
+
+            <div class="form-group row" style="margin-top:-16px">
+
+                <div class="" style="display:inline">
+                    @Html.EditorFor(model => model.IsSearchByTag)
+                    @*@Html.ValidationMessageFor(model => model.IsSearchByTag, "", new { @class = "text-danger" })*@
+                </div>
+
+                <div style="display:inline;">
+                    @Html.LabelFor(model => model.IsSearchByTag, htmlAttributes: new { @class = "control-label" })
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-top:-12px;margin-bottom:8px">
+                <div>
+                    <input type="submit" value="search" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+    }
+</div>

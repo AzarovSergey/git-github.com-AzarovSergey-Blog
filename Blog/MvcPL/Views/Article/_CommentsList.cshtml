@@ -1,0 +1,34 @@
+﻿@model IEnumerable<MvcPL.Models.CommentViewModel>
+@using MvcPL.Models
+@{
+    Layout = null;
+    UserViewModel userModel;
+    if (TempData.ContainsKey("user"))
+    {
+        userModel = (UserViewModel)TempData.Peek("user");
+    }
+    else
+    {
+        userModel = new UserViewModel();
+    }
+}
+
+<div id="comment-container">
+@foreach (var comment in Model)
+{
+    <div class="comment">
+        <p>@if (User.IsInRole("Admin")||User.Identity.IsAuthenticated && userModel.Id == comment.AuthorId)
+        {
+            if (!userModel.Ban)
+            {
+                <a class="glyphicon glyphicon-edit edit-button btn btn-info" href="~/Article/EditComment/@comment.Id">Edit</a>
+            }  
+            <a class="glyphicon glyphicon-remove btn btn-danger" href="~/Article/RemoveComment/@comment.Id">Remove</a>
+        }
+            <a class="username" href="~/Article/ShowUserArticles/@comment.AuthorId">@comment.AuthorName</a>
+            <span class="datetime">@comment.CreationDateTime</span>
+        </p>
+        <p class="content">@comment.Message</p>
+    </div>
+}
+</div>

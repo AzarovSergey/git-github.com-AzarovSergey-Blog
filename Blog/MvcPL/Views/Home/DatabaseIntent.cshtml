@@ -1,0 +1,86 @@
+﻿@using MvcPL.Models
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+
+    //TODO remove this page
+}
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>DB</title>
+    <style>
+        .role, .article, .user {
+            border: solid 2px;
+            padding: 10px;
+        }
+
+        .role {
+            background-color: mediumpurple;
+        }
+
+        .user {
+            background-color: cornflowerblue;
+        }
+
+        .article {
+            background-color: aqua;
+        }
+    </style>
+</head>
+<body>
+    <p>
+        @ViewBag.AdminUser.UserName
+    </p>
+    <h1>I am working. t0</h1>
+    <div class="role">
+        @foreach(RoleViewModel role in ViewBag.Roles)
+        {
+            <p>@role.Name</p>
+        }
+    </div>
+
+    <div class="user">
+        @foreach (UserViewModel user in ViewBag.Users)
+        {
+            <div class="user">
+                <p>@user.UserName</p>
+                <p>@user.RoleId</p>
+                <p>@user.Login</p>
+                <p>@user.Password</p>
+            </div>
+        }
+    </div>
+
+    <div class="article">
+        @foreach (ArticleViewModel article in ViewBag.Articles)
+        {
+            <div class="article">
+                <p>@article.Content</p>
+                <p>@article.CreationDateTime</p>
+            </div>
+        }
+    </div>
+    @*
+        @foreach (RoleViewModel role in ViewBag.Roles)
+        {
+            @role.Name
+        <div class="role">
+            @foreach (UserViewModel user in role.Users)
+            {
+            <div class="user">
+                @user.UserName
+                @foreach (ArticleViewModel article in user.Articles)
+                {
+                <div class="article">
+                    @article.Content
+                </div>
+                }
+            </div>
+            }
+        </div>
+        }*@
+</body>
+</html>
+

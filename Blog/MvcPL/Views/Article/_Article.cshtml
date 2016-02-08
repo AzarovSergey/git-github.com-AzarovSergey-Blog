@@ -1,0 +1,49 @@
+﻿@model MvcPL.Models.ArticleViewModel
+@using MvcPL.ViewModels
+@using MvcPL.Models
+@{ 
+    UserViewModel userModel;
+    if (TempData.ContainsKey("user"))
+    {
+        userModel = (UserViewModel)TempData.Peek("user");
+    }
+    else
+    {
+        userModel = new UserViewModel();
+    }
+}
+
+<div style="margin:12px">
+   
+    <div>
+        @if (Model.Author != null)
+        {
+            <span class="username">Author: @Model.Author.UserName</span>
+        }
+        @if (User.IsInRole("Admin") || User.Identity.IsAuthenticated && userModel.Id == Model.AuthorId)
+        {
+            if (!userModel.Ban)
+            {
+                <a class="glyphicon glyphicon-edit edit-button btn btn-info" href="~/Article/Edit/@Model.ArticleId">Edit</a>
+            }
+            <a class="glyphicon glyphicon-remove btn btn-danger" href="~/Article/Remove/@Model.ArticleId">Remove</a>
+        }
+    </div>
+    
+    @if (Model.Tags != null)
+    {
+        <div>
+            @foreach(string tag in Model.Tags)
+            {
+                <span class="tag">@tag</span>
+            }
+        </div>
+    }
+    <p class="datetime">created: @Model.CreationDateTime</p>
+
+    <div>
+        <h1 class="title">@Model.Title</h1>
+    </div>
+
+    <p class="content" @*contenteditable="true" spellcheck="true" TODO make editable*@> @Model.Content</p><br />
+</div>

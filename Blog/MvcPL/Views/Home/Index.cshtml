@@ -1,0 +1,94 @@
+﻿@using MvcPL.Models
+@{
+    Layout = @"~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using MvcPL.Models
+@using MvcPL.Controllers
+
+
+@{
+    if (TempData.ContainsKey(ArticleController.articleKey))
+    {
+        Html.RenderPartial(@"~/Views/Article/_ArticlesDescriptionList.cshtml", TempData[ArticleController.articleKey]);
+        TempData.Remove(ArticleController.articleKey);
+    }
+}
+@*<style>
+    .role, .article, .user, .tag, .comment{
+        border: solid 2px;
+        padding: 10px;
+    }
+
+    .role {
+        background-color: mediumpurple;
+    }
+
+    .user {
+        background-color: cornflowerblue;
+    }
+
+    .article {
+        background-color: aqua;
+    }
+    .tag{
+        background-color:chartreuse;
+    }
+    .comment{
+        background-color:Highlight;
+    }
+   
+</style>*@
+@*<div class="db">
+    <div class="role">
+        @foreach (RoleViewModel role in ViewBag.Roles)
+        {
+            <p>@role.Name</p>
+        }
+    </div>
+
+    <div class="user debug">
+        @foreach (UserViewModel user in ViewBag.Users)
+        {
+            <div class="user">
+                <p>@user.UserName</p>
+                <p>@user.RoleId</p>
+                <p>@user.Login</p>
+                <p>@user.Password</p>
+            </div>
+        }
+    </div>
+
+    <div class="article">
+        @foreach (ArticleViewModel article in ViewBag.Articles)
+        {
+            <div class="article">
+                <p>@article.Content</p>
+                <p>@article.CreationDateTime</p>
+            </div>
+        }
+    </div>
+
+    <div class="tag debug">
+        @foreach (TagViewModel tag in ViewBag.Tags)
+        {
+            <div class="tag">
+                <p>@tag.Value</p>
+            </div>
+        }
+    </div>
+
+    <div class="comment">
+        @foreach (CommentViewModel comment in ViewBag.Comments)
+        {
+            <div class="comment">
+                <p>@comment.Id</p>
+                <p>@comment.Message</p>
+                <p>@comment.CreationDateTime</p>
+                <p>@comment.ArticleId</p>
+                <p>@comment.AuthorId</p>
+            </div>
+        }
+    </div>
+</div>*@

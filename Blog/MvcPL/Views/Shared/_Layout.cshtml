@@ -1,0 +1,71 @@
+﻿@using MvcPL.ViewModels
+@using MvcPL.Models
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE HTML>
+<html>@*TODO set lang  attribute*@
+<head>
+    <meta charset="utf-8" />
+    <title>Index page</title>
+
+    <link href="~/Content/reset.css" rel="stylesheet" />
+    <link href="~/Content/normalize.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+</head>
+<body>
+    <header class="row">
+        <div class="col-sm-4">
+            <a href="/">
+                <img src="~/Content/Images/logo.png" />
+            </a>
+        </div>
+        <div class="col-sm-4">
+            @*@{Html.RenderAction("Search", "Home"); }*@
+            @{Html.RenderPartial("_Search", new SearchViewModel()); }
+        </div>
+        <div class="col-sm-4">
+            @if (User.Identity.IsAuthenticated)
+            {
+            <a class="btn btn-info btn-lg btn-account" href="~/Account/LogOut">выход</a>
+            <span>Hello @User.Identity.Name</span>
+            }
+            else
+            {
+            <a class="btn btn-info btn-lg btn-account" href="~/Account/Login">войти</a>
+            <a class="btn btn-info btn-lg btn-account" href="~/Account/Register">регистрация</a>
+            }
+        </div>
+    </header>
+    
+    @if (TempData.ContainsKey("user"))
+    {
+        UserViewModel userModel = (UserViewModel)TempData.Peek("user");
+        <nav>
+            <div class="navbar">
+                <div>
+                    <ul class="nav navbar-nav">
+                        <li><a href="~/Article/ShowUserArticles/@userModel.Id">show my articles</a></li>
+                        @if (!userModel.Ban)
+                        {
+                            <li><a href="~/Article/Create">create article</a></li>
+                            if (User.IsInRole("Admin"))
+                            {
+                                <li><a href="~/Account/AdminPage/">admin page</a></li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    }
+    @RenderBody()
+    <footer>
+        <hr style="border:solid 1px" />
+    </footer>
+</body>
+</html>
+

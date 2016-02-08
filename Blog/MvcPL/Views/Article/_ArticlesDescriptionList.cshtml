@@ -1,0 +1,25 @@
+﻿@model IEnumerable<MvcPL.Models.ArticleViewModel>
+
+<div class="article-list">
+    @foreach (var article in Model)
+    {
+        <div class="article-description">
+            <p>
+                <a class="article-link" href="~/Article/Show/@article.ArticleId">@article.Title</a>
+            </p>
+            @if (article.Author != null&&article.Author.UserName!=null)
+            {
+                <a class="username" href="~/Article/ShowUserArticles/@article.AuthorId">@article.Author.UserName</a>
+            }
+            @if (article.Tags != null)
+            {
+                <p>
+                    @foreach (var tag in article.Tags)
+                    {
+                        <span class="tag">@tag</span>@:&nbsp;
+                    }
+                </p>
+            }
+        </div>
+    }
+</div>

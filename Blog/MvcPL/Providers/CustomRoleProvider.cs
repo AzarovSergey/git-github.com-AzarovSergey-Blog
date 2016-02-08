@@ -3,14 +3,9 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
 using BLL.Interface.Services;
-//using DalToWeb;
-//using DalToWeb.Interfacies;
-//using DalToWeb.Repositories;
 
 namespace MvcPL.Providers
 {
-    //провайдер ролей указывает системе на статус пользователя и наделяет 
-    //его определенные правами доступа
     public class CustomRoleProvider : RoleProvider
     {
         public IUserService UserService = (IUserService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IUserService));
@@ -48,18 +43,7 @@ namespace MvcPL.Providers
             }
             return roles;
         }
-
-        //TODO remove method
-        public override void CreateRole(string roleName)
-        {
-            throw new Exception();
-            //var newRole = new Role() {Name = roleName};
-            //using (var context = new UserContext())
-            //{
-            //    context.Roles.Add(newRole);
-            //    context.SaveChanges();
-            //}
-        }
+        
 
         public override bool DeleteRole(string roleName, bool throwOnPopulatedRole)
         {
@@ -92,6 +76,11 @@ namespace MvcPL.Providers
         }
 
         public override string[] FindUsersInRole(string roleName, string usernameToMatch)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void CreateRole(string roleName)
         {
             throw new NotImplementedException();
         }

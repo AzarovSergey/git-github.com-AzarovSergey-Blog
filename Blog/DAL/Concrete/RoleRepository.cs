@@ -19,6 +19,7 @@ namespace DAL.Concrete
             this.context = dbContext;
         }
 
+
         #region create update delete
         public void Create(DalRole e)
         {
@@ -35,10 +36,11 @@ namespace DAL.Concrete
         }
         #endregion
 
+
         #region get methods
         public IEnumerable<DalRole> GetAll()
         {
-            return context.Set<Role>().ToArray().Select(role => role.ToDalRole());
+            return GetManyByPredicate(x => true);
         }
 
         public DalRole GetById(int key)
@@ -48,14 +50,21 @@ namespace DAL.Concrete
 
         public DalRole GetByPredicate(Expression<Func<DalRole, bool>> f)
         {
-            return context.Set<Role>().Select(role=>new DalRole()
+            return GetManyByPredicate(f).FirstOrDefault(f);
+        }
+
+        public IQueryable<DalRole> GetManyByPredicate(Expression<Func<DalRole, bool>> f)
+        {
+            return context.Set<Role>().Select(role => new DalRole()
             {
                 Id = role.Id,
                 Name = role.Name,
-            }) .FirstOrDefault(f);
+            }).Where(f);
         }
+
+
         #endregion
 
-        
+
     }
 }

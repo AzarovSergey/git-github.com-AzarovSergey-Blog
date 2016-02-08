@@ -6,6 +6,7 @@ using DAL.Interface.DTO;
 using DAL.Interface.Repository;
 using ORM;
 using DAL.Mapper;
+using System.Linq.Expressions;
 
 namespace DAL.Concrete
 {
@@ -26,7 +27,7 @@ namespace DAL.Concrete
         /// <returns></returns>
         public IEnumerable<DalUser> GetAll()
         {
-            return context.Set<User>().ToArray().Select(user => user.ToDalUser());
+            return GetManyByPredicate(x => true);
         }
 
         /// <summary>
@@ -40,7 +41,7 @@ namespace DAL.Concrete
         }
 
         /// <summary>
-        /// 
+        /// Find the first user according to predicate.
         /// </summary>
         /// <param name="expression"></param>
         /// <returns></returns>
@@ -53,8 +54,22 @@ namespace DAL.Concrete
                 Password = x.Password,
                 RoleId = x.RoleId,
                 UserName = x.UserName,
-                Ban=x.Ban,
+                Ban = x.Ban,
             }).FirstOrDefault(expression);
+           // return GetManyByPredicate(expression).FirstOrDefault(expression);
+        }
+
+        public IQueryable<DalUser> GetManyByPredicate(Expression<Func<DalUser, bool>> expression)
+        {
+            return context.Set<User>().Select(x => new DalUser()
+            {
+                Id = x.Id,
+                Login = x.Login,
+                Password = x.Password,
+                RoleId = x.RoleId,
+                UserName = x.UserName,
+                Ban = x.Ban,
+            }).Where(expression);
         }
         #endregion
 

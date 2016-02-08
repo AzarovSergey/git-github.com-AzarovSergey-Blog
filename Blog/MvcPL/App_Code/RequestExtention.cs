@@ -11,7 +11,7 @@ namespace MvcPL.App_Code
     {
         public static string GetCurrentUserLogin(this HttpRequestBase request)
         {
-            //TODO change method to User.Identity.Name
+            //TODO change this method to User.Identity.Name
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
             HttpCookie authCookie = request.Cookies[FormsAuthentication.FormsCookieName];

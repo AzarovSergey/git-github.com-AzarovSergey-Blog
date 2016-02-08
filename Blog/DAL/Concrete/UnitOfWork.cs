@@ -16,10 +16,7 @@ namespace DAL.Concrete
         {
             Context = context;
         }
-
-        /// <summary>
-        /// Save all changes to database.
-        /// </summary>
+        
         public void Commit()
         {
             if (Context != null)

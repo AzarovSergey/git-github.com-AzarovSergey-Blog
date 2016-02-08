@@ -19,7 +19,6 @@ namespace MvcPL.ViewModels
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Enter your password")]
-        //[StringLength(100, ErrorMessage = "The password must contain at least {2} characters", MinimumLength = 1)]
         [DataType(DataType.Password)]
         [Display(Name = "Enter your password")]
         public string Password { get; set; }

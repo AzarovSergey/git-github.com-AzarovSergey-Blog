@@ -20,7 +20,6 @@ namespace ORM
             Database.SetInitializer(new OnceInitializer());
         }
 
-        //TODO remove virtual keyword, if it will work without it
         public  DbSet<Role> Roles { get; set; }
         public  DbSet<User> Users { get; set; }
         public  DbSet<Article> Articles { get; set; }

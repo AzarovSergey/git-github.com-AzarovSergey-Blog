@@ -11,14 +11,14 @@
 <table>
     <thead style="background-color:#eee">
         <tr>
-            <td>Id</td><td>Login</td><td>Password</td><td>RoleId</td><td>UserName</td><td>ban</td>
+            <td>Id</td><td>Login</td><td>RoleId</td><td>UserName</td><td>ban</td>
         </tr>
     </thead>
     <tbody>
     @foreach (UserViewModel user in Model)
     {
         <tr>
-            <td>@user.Id</td><td>@user.Login</td><td>@user.Password</td><td>@user.RoleId</td><td>@user.UserName</td><td>@user.Ban</td>
+            <td>@user.Id</td><td>@user.Login</td><td>@user.RoleId</td><td>@user.UserName</td><td>@user.Ban</td>
             <td>
                 @if (user.Ban)
                 {

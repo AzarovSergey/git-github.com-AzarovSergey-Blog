@@ -10,7 +10,6 @@ namespace MvcPL.Mapper
 {
     public static class PLEntityMapper
     {
-        //TODO is it neccessary to have 2 ToPlArticle methods?
         public static ArticleViewModel ToPlArticle(this ArticleEntity article,UserViewModel author)
         {
             return new ArticleViewModel()

@@ -3,9 +3,6 @@ using System.Linq;
 using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Security;
-//using DalToWeb;
-//using DalToWeb.Interfacies;
-//using DalToWeb.Repositories;
 using BLL.Interface.Services;
 using BLL.Interface.Entities;
 
@@ -13,10 +10,9 @@ namespace MvcPL.Providers
 {
     public class CustomMembershipProvider : MembershipProvider
     {
-        //TODO incapsulate
-        public IUserService userService = (IUserService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IUserService));
+        private readonly IUserService userService = (IUserService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IUserService));
 
-        public IRoleService roleService = (IRoleService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IRoleService));
+        private readonly IRoleService roleService = (IRoleService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IRoleService));
 
 
         public MembershipUser CreateUser(string login, string password,string userName)
@@ -46,12 +42,7 @@ namespace MvcPL.Providers
         public override bool ValidateUser(string email, string password)
         {
             var user = userService.GetByLogin(email);
-
-            if (user != null && user.Password==password)
-            {//TODO rewrite here
-                return true;
-            }
-            return false;
+            return (user != null && user.Password == password);
         }
 
         public override MembershipUser GetUser(string email, bool userIsOnline)

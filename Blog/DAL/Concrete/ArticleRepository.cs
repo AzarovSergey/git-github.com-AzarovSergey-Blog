@@ -6,6 +6,7 @@ using DAL.Interface.DTO;
 using DAL.Interface.Repository;
 using ORM;
 using DAL.Mapper;
+using System.Linq.Expressions;
 
 namespace DAL.Concrete
 {
@@ -26,7 +27,7 @@ namespace DAL.Concrete
         /// <returns></returns>
         public IEnumerable<DalArticle> GetAll()
         {
-            return context.Set<Article>().ToArray().Select(x => x.ToDalArticle());
+            return GetManyByPredicate(x => true);
         }
 
         /// <summary>
@@ -41,15 +42,22 @@ namespace DAL.Concrete
                 .ToDalArticle();
         }
 
-
-        /// <summary>
-        /// The method returns the first article according to predicate.
-        /// </summary>
-        /// <param name="f"></param>
-        /// <returns></returns>
-        public DalArticle GetByPredicate(System.Linq.Expressions.Expression<Func<DalArticle, bool>> f)
+        public DalArticle GetByPredicate(Expression<Func<DalArticle, bool>> expression)
         {
-            throw new NotImplementedException();
+            return GetManyByPredicate(expression).FirstOrDefault(expression);
+        }
+
+
+        public IQueryable<DalArticle> GetManyByPredicate(Expression<Func<DalArticle, bool>> f)
+        {
+            return context.Set<Article>().Select(article => new DalArticle()
+            {
+                Id = article.Id,
+                AuthorId=article.AuthorId,
+                Content=article.Content,
+                CreationDateTime=article.CreationDateTime,
+                Title=article.Title,
+            }).Where(f);
         }
 
         /// <summary>
@@ -59,10 +67,7 @@ namespace DAL.Concrete
         /// <returns></returns>
         public IEnumerable<DalArticle> GetByAuthorId(int authorId)
         {
-            return context.Set<Article>()
-                .Where(x => x.AuthorId == authorId)
-                .ToArray()
-                .Select(x => x.ToDalArticle());
+            return GetManyByPredicate(artice => artice.AuthorId == authorId);
         }
 
         /// <summary>
@@ -134,7 +139,7 @@ namespace DAL.Concrete
         #region update delete
 
         /// <summary>
-        /// Remove the article from database.
+        /// Remove the article from the database.
         /// </summary>
         /// <param name="article"></param>
         public void Delete(DalArticle article)
@@ -176,6 +181,7 @@ namespace DAL.Concrete
 
             foreach (Tag tag in ormArticle.Tags)
             {
+                //TODO optimize here
                 //tag.Articles.Remove(ormArticle);
                 var t = tag.Articles.ToList();
                 t.Remove(ormArticle);
@@ -188,7 +194,7 @@ namespace DAL.Concrete
                 Tag ormTag = tagSet.FirstOrDefault(x => x.Value == tag);
                 if (ormTag == null)
                 {
-                    ormTag = new Tag() { Value = tag/*,Articles=new List<Article>() { ormArticle }*/ };
+                    ormTag = new Tag() { Value = tag };
                     tagSet.Add(ormTag);
                 }
                 //TODO optimize here
@@ -211,10 +217,7 @@ namespace DAL.Concrete
         /// <returns>Articles which contain specific string.</returns>
         public IEnumerable<DalArticle> SearchInContent(string searchString)
         {
-            return context.Set<Article>()
-                .Where(x=>x.Content.Contains(searchString)||x.Title.Contains(searchString))
-                .ToArray()
-                .Select(x=>x.ToDalArticle());
+            return GetManyByPredicate(article => article.Content.Contains(searchString) || article.Title.Contains(searchString));
         }
         #endregion
 

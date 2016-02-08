@@ -55,7 +55,6 @@ namespace BLL.Services
         /// <param name="id"></param>
         public void Remove(int id)
         {
-            //TODO maybe this is costil
             repository.Delete(new DalComment() { Id = id });
             uow.Commit();
         }

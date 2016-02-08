@@ -13,7 +13,7 @@ namespace DependencyResolver
     {
         public override void Load()
         {
-            Bind<IUnitOfWork>().To<UnitOfWork>();
+            Bind<IUnitOfWork>().To<UnitOfWork>();//.InSingletonScope();
 
             Bind<DbContext>().To<EntityModel>().InSingletonScope();
             Bind<IUserRepository>().To<UserRepository>();

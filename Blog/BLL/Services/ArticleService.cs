@@ -107,7 +107,7 @@ namespace BLL.Services
             if (article == null)
                 throw new ArgumentNullException(nameof(article));
             if (tags == null)
-                throw new ArgumentNullException(nameof(tags));
+                tags = string.Empty;
             repository.Edit(article.ToDalArticle(), SplitTags(tags));
             uow.Commit();
         }
@@ -146,6 +146,8 @@ namespace BLL.Services
         /// <returns></returns>
         private string[] SplitTags(string tags)
         {
+            if (tags == null)
+                return new string[0];
             return tags.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
         }
         #endregion

@@ -50,7 +50,7 @@ namespace DAL.Concrete
         /// <returns></returns>
         public IEnumerable<DalTag> GetAll()
         {
-            return dbContext.Set<Tag>().ToArray().Select(tag => tag.ToDalTag());
+            return GetManyByPredicate(x => true);
         }
 
         /// <summary>
@@ -72,10 +72,20 @@ namespace DAL.Concrete
 
         public DalTag GetByPredicate(Expression<Func<DalTag, bool>> expression)
         {
-            throw new NotImplementedException();
+            return GetManyByPredicate(expression).FirstOrDefault(expression);
+        }
+
+
+        public IQueryable<DalTag> GetManyByPredicate(Expression<Func<DalTag, bool>> expression)
+        {
+            return dbContext.Set<DalTag>().Select(x => new DalTag()
+            {
+                Id = x.Id,
+                Value=x.Value
+            }).Where(expression);
         }
         #endregion
 
-        
+
     }
 }

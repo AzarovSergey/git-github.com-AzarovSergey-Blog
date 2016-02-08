@@ -11,7 +11,7 @@
 
 @{
     TempData["articleId"] = Model.ArticleId;
-    Html.RenderPartial("_CommentsList", Model.Comments);
+    Html.RenderPartial("_CommentsList", Model.Comments.ToArray());
     <script>
     $(function () {
         var container = $('#comment-container');
@@ -24,8 +24,6 @@
                 }
             });
         };
-        //var intent = $("<h2>").text("I am $");
-        //container.append(intent);
         setInterval(GetComments, 5000);
     });
     </script>

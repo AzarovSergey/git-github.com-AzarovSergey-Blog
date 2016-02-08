@@ -223,7 +223,6 @@ namespace MvcPL.Controllers
                 TempData[commentModelKey] = new CommentFormViewModel() { Comment = comment.Message, CommentId = id, ArticleId = comment.ArticleId };
                 TempData["user"] = userService.GetByLogin(Request.GetCurrentUserLogin()).ToPlUser();
                 return Redirect(@"~/Article/Show/" + comment.ArticleId.ToString());
-                //return View("EditComment", new CommentFormViewModel() { Comment = comment.Message,Id=id,ArticleId=comment.ArticleId });
             }
             return RedirectToAction("Index", "Home");
         }
@@ -241,22 +240,14 @@ namespace MvcPL.Controllers
             }
             return RedirectToAction("Index", "Home");
         }
-
-        //[HttpGet]
-        //[AllowAnonymous]
-        ////id is article id
-        //public JsonResult GetComments(int id)
-        //{
-        //    var jsonResult = Json(commentService.GetByArticleId(id).Select(comment => comment.ToPlComment(userService.GetById(comment.AuthorId).UserName)));
-        //    jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-        //    return jsonResult;
-        //}
+        
         [AllowAnonymous]
         public ActionResult GetComments(int id)
         {
             if (User.Identity.IsAuthenticated)
-                TempData["user"]=userService.GetByLogin(Request.GetCurrentUserLogin()).ToPlUser();
-            return View("_CommentsList", commentService.GetByArticleId(id).ToArray().Select(comment => comment.ToPlComment(userService.GetById(comment.AuthorId).UserName)));
+                TempData["user"] = userService.GetByLogin(Request.GetCurrentUserLogin()).ToPlUser();
+            IEnumerable<CommentViewModel> model = commentService.GetByArticleId(id).ToArray().Select(comment => comment.ToPlComment(userService.GetById(comment.AuthorId).UserName));
+            return View("_CommentsList",model);
         }
         #endregion
 

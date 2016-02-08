@@ -68,7 +68,7 @@ namespace DAL.Concrete
         /// <returns></returns>
         public IEnumerable<DalComment> GetAll()
         {
-            return context.Set<Comment>().ToArray().Select(comment => comment.ToDalComment());
+            return GetManyByPredicate(x => true);
         }
 
         /// <summary>
@@ -78,12 +78,8 @@ namespace DAL.Concrete
         /// <returns></returns>
         public IEnumerable<DalComment> GetByArticleId(int articleId)
         {
-            return context
-                .Set<Comment>()
-                .Where(x => x.ArticleId == articleId)
-                .OrderBy(x=>x.CreationDateTime)
-                .ToArray()
-                .Select(x=>x.ToDalComment());
+            return GetManyByPredicate(comment => comment.ArticleId == articleId)
+                .OrderBy(x => x.CreationDateTime);
         }
 
         /// <summary>
@@ -98,17 +94,27 @@ namespace DAL.Concrete
                 .Find(key)?
                 .ToDalComment();
         }
-        /// <summary>
-        /// The method returns the first article according to predicate.
-        /// </summary>
-        /// <param name="f"></param>
-        /// <returns></returns>
+
+
         public DalComment GetByPredicate(Expression<Func<DalComment, bool>> expression)
         {
-            throw new NotImplementedException();
+            return GetManyByPredicate(expression).FirstOrDefault(expression);
+        }
+        
+
+        public IQueryable<DalComment> GetManyByPredicate(Expression<Func<DalComment, bool>> f)
+        {
+            return context.Set<Comment>().Select(comment => new DalComment()
+            {
+                Id=comment.Id,
+                ArticleId=comment.ArticleId,
+                AuthorId=comment.AuthorId,
+                CreationDateTime=comment.CreationDateTime,
+                Message=comment.Message,
+            }).Where(f);
         }
         #endregion
 
-        
+
     }
 }
